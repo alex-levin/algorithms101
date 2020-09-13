@@ -2,6 +2,7 @@ package mycode.section2;
 
 import java.util.Arrays;
 
+// AKA ArrayList
 public class DynamicArray<T> {
 
     private Object[] data;
@@ -15,34 +16,37 @@ public class DynamicArray<T> {
 
     public DynamicArray(int initialCapacity) {
         this.initialCapacity = initialCapacity;
-        data = new Object[this.initialCapacity];
+        data = new Object[initialCapacity];     
     }
 
     public String get(int index) {
         return (String) data[index];
     }
 
+    // |a|b|c|d|
     public void set(int index, String value) {
-        if(index > -1) {
-            data[index] = value;
+        if(size == data.length) {
+            resize();
         }
-        if(index == size) {
-        	size++;
+        if(index < 0 || index > size) {
+            throw new ArrayIndexOutOfBoundsException("Index is out of bounds!");
         }
+        data[index] = value;
     }
 
     // |a|b|c|d|
     public void insert(int index, String value) {
-        if(data.length == size) {
-            this.resize();
+        if(size == data.length) {
+            resize();
         }
-        if(index > -1) {
-            for(int i = size - 1; i >= index; i--) {
-                data[i + 1] = data[i];
-            }
-            data[index] = value;
-            size++;
-        } 
+        if(index < 0 || index > size) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        for(int i = size; i > index; i--) {
+            data[i] = data[i - 1];
+        }
+        data[index] = value;
+        size++;
     }
 
     //
@@ -52,20 +56,14 @@ public class DynamicArray<T> {
 
     // |a|b|b|c|
     public void delete(int index) {
-        if(!isEmpty()) {
-            if(index > -1 && index < size) {
-            	// if delete last item
-                if(index == size - 1) {
-                	data[index] = null;
-                	size--;
-                	return;
-                }
-                for(int i = index; i < size; i++) {
-                    data[i] = data[i + 1];
-                }
-                size--;
-            }
+        if(index < 0 || index > size - 1) {
+            throw new ArrayIndexOutOfBoundsException("Index is out of bounds!");
         }
+        for(int i = index; i < size - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        data[size - 1] = null;
+        size--;
     }
 
     public boolean isEmpty() {
@@ -74,7 +72,8 @@ public class DynamicArray<T> {
 
     public boolean Contains(String value) {
         for(int i = 0; i < size; i++) {
-            if(data[i].equals(value)) {
+            String s = (String) data[i];
+            if(value.equals(s)) {
                 return true;
             }
         }
@@ -101,10 +100,10 @@ public class DynamicArray<T> {
     // Some array implementations offer methods like insert (also known as pushBack).
     // Which is like insert, only in does the insert at the end of the array.
     public void add(String value) {
-        if(data.length == size) {
-            this.resize();
+        if(size == data.length) {
+            resize();
         }
         data[size] = value;
-        size++;
+        size++;        
     }
 }

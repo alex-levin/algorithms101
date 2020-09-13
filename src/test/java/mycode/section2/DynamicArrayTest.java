@@ -8,7 +8,6 @@ public class DynamicArrayTest {
 
     private DynamicArray<String> array;
 
-    // Runs before each test
     @Before
     public void SetUp() {
         array = new DynamicArray<String>(2);
@@ -68,7 +67,7 @@ public class DynamicArrayTest {
         array.add("a");
         array.add("b");
         array.add("c");
-        
+
         array.delete(2);
 
         Assert.assertEquals(2, array.size());

@@ -1,6 +1,6 @@
 package datastructures;
 
-public class DynamicArray<String> {
+public class DynamicArray<T> {
 
     private Object[] data;
 
